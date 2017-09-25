@@ -43,7 +43,7 @@ following data structure:
 
 In this example you can observe multiple aspects of `fsdb`.
 
-* The db is spread of multiple files, these will be merged deeply..
+* The db is spread of multiple files, these will be merged deeply.
 * These files can have differen formats.
 * Names of directories & files make up the nesting.
 * Later (more specific entries) overwrite former.
