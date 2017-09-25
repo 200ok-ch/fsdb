@@ -6,10 +6,10 @@ top of the file system.
 
 ## Idea
 
-The idea behind fsdb is simple. Files one or more files on a file
-system make up a database. The files can be of different formats and
-can be structured in a directory tree. The names of directories and
-files as well as the content of the files make up a database.
+The idea behind fsdb is simple. One or more files on a file system
+make up a database. The files can be of different formats and can be
+structured in a directory tree. The names of directories and files as
+well as the content of the files make up a database.
 
 Here is an example:
 
