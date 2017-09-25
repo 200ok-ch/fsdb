@@ -1,3 +1,5 @@
+[![Clojars Project](https://img.shields.io/clojars/v/fsdb.svg)](https://clojars.org/fsdb)
+
 # fsdb
 
 A Clojure library that provides a reasonably convenient database on
