@@ -3,7 +3,11 @@
   (:gen-class)
   (:require [clojure.string :refer [split]]
             [clojure.walk :refer [keywordize-keys]]
-            [yaml.core :as yaml]))
+            [yaml.core :as yaml]
+            [clojure.data.csv :as csv]
+            [clojure.java.io :as io]
+            [clojure.data.json :as json]
+            ))
 
 (defn- file-extension
   "Extract the extension from filename and return it as keyword."
@@ -25,6 +29,16 @@
   (-> filename
       slurp
       read-string))
+
+(defmethod read-file :json [filename]
+  (-> filename
+      slurp
+      json/read-str))
+
+(defmethod read-file :csv [filename]
+  (with-open [reader (io/reader filename)]
+    (doall
+     (csv/read-csv reader))))
 
 (defmethod read-file :yml [filename]
   (-> filename
