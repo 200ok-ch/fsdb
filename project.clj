@@ -7,8 +7,4 @@
                  [io.forward/yaml "1.0.6"]
                  [org.clojure/data.json "0.2.6"]
                  [org.clojure/data.csv "0.1.4"]]
-  :repositories [["releases" {:url "https://clojars.org/fsdb"
-                              :username :env
-                              :sign-releases false
-                              :password :env}]]
   :main ^:skip-aot fsdb.core)
