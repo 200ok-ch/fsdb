@@ -50,6 +50,15 @@ In this example you can observe multiple aspects of `fsdb`.
 * Names of directories & files make up the nesting of the resulting data structure.
 * Later (more specific entries) overwrite former.
 
+### Metadata
+
+`fsdb` automatically contextualizes the data. Objects in the resulting
+data structure have `:path` as well as `:key` set in the metadata.
+
+```
+(-> data :example :people :rich meta :path) ;=> [:example :people :rich]
+(-> data :example :people :rich meta :key) ;=> :rich
+```
 
 ## Usage
 
