@@ -1,4 +1,4 @@
-(defproject fsdb "0.2.0-SNAPSHOT"
+(defproject fsdb "0.2.0"
   :description "A reasonably convenient database on top of the file system."
   :url "http://gitlab.com/200ok/fsdb"
   :license {:name "Eclipse Public License"
