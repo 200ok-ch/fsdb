@@ -127,7 +127,7 @@
 
 
 (defn merge-down [args input]
-  (reduce #(merge %1 (get-in input (map keyword (split %2 #"/")))) {} args))
+  (reduce #(deep-merge %1 (get-in input (map keyword (split %2 #"/")))) {} args))
 
 
 (defn -main
