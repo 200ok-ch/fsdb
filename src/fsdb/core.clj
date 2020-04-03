@@ -78,9 +78,12 @@
 (defn read-tree
   "Takes on path to read the directory tree from."
   [path]
-  (->> (list-files path)
-       (map read-file-with-prefixing)
-       (apply deep-merge)))
+  (let [files (list-files path)]
+    (if (empty? files)
+      {}
+      (->> files
+           (map read-file-with-prefixing)
+           (apply deep-merge)))))
 
 (defn- pathwalk
   "Walk a data structure e calling f for every node passing the path and
@@ -100,7 +103,7 @@
        :else e'))))
 
 (defn- obj?
-  "Return true if x implements clojure.lang.IObj."
+  "Returns true if x implements clojure.lang.IObj."
   [x]
   (instance? clojure.lang.IObj x))
 
@@ -122,6 +125,11 @@
         (orig-dispatch o))
       (pprint/pprint obj))))
 
+
+(defn merge-down [args input]
+  (reduce #(merge %1 (get-in input (map keyword (split %2 #"/")))) {} args))
+
+
 (defn -main
   "Takes multiple paths, reads the directory trees, merges them in
   order and pretty prints the result."
@@ -129,4 +137,7 @@
   (->> (map read-tree args)
        (apply deep-merge)
        (pathwalk annotate)
-       pprint-with-meta))
+       (merge-down args)
+       ;;pprint-with-meta
+       json/write-str
+       println))
