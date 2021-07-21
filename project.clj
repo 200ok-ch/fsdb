@@ -1,4 +1,4 @@
-(defproject fsdb "1.0.1"
+(defproject fsdb "1.1.0"
   :description "A reasonably convenient database on top of the file system."
   :url "http://gitlab.com/200ok/fsdb"
   :license {:name "Eclipse Public License"
@@ -8,6 +8,8 @@
                  [org.clojure/data.json "0.2.6"]
                  [org.clojure/data.csv "0.1.4"]]
   :main ^:skip-aot fsdb.core
+  :bin {:name "fsdb"
+        :bin-path "~/bin"}
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}
              :dev {:plugins [[lein-binplus "0.6.6"]]}})

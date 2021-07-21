@@ -71,7 +71,7 @@ data structure have `:path` as well as `:key` set in the metadata.
 
 ## License
 
-Copyright © 2017-2020 Phil Hofmann <phil@200ok.ch>
+Copyright © 2017-2021 200ok llc <info@200ok.ch>
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.

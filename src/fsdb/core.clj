@@ -71,9 +71,10 @@
 (defn- deep-merge
   "Recursively merges maps. If vals are not maps, the last value wins."
   [& vals]
-  (if (every? map? vals)
-    (apply merge-with deep-merge vals)
-    (last vals)))
+  (let [vals (remove nil? vals)]
+    (if (every? map? vals)
+      (apply merge-with deep-merge vals)
+      (last vals))))
 
 (defn read-tree
   "Takes on path to read the directory tree from."
@@ -125,19 +126,23 @@
         (orig-dispatch o))
       (pprint/pprint obj))))
 
-
+;; Removes the parent folder structure from the map.
+;; {: {:home {:user {:foo {}}}}} becomes
+;; {:foo {}}
 (defn merge-down [args input]
   (reduce #(deep-merge %1 (get-in input (map keyword (split %2 #"/")))) {} args))
-
 
 (defn -main
   "Takes multiple paths, reads the directory trees, merges them in
   order and pretty prints the result."
   [& args]
-  (->> (map read-tree args)
-       (apply deep-merge)
-       (pathwalk annotate)
-       (merge-down args)
-       ;;pprint-with-meta
-       json/write-str
-       println))
+  (try
+    (->> (map read-tree args) ; returns a list of maps: ({})
+         (apply deep-merge)
+         (pathwalk annotate)
+         (merge-down args)
+         ;;pprint-with-meta
+         json/write-str
+         println)
+    (catch Exception e
+      (println "There's an error: " (.getMessage e)))))
