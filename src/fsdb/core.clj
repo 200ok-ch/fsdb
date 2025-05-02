@@ -20,9 +20,10 @@
   file-extension)
 
 (defmethod read-file :default [filename]
-  (println (str "No method read-file for "
-                (name (file-extension filename))
-                ", skipping " filename))
+  ;; NOTE: ignore unknown files silently
+  ;; (println (str "No method read-file for "
+  ;;               (name (file-extension filename))
+  ;;               ", skipping " filename))
   {})
 
 (defmethod read-file :edn [filename]
@@ -132,15 +133,19 @@
 (defn merge-down [args input]
   (reduce #(deep-merge %1 (get-in input (map keyword (split %2 #"/")))) {} args))
 
+(defn ingest [paths]
+  (->> (map read-tree args) ; returns a list of maps: ({})
+       (apply deep-merge)
+       (pathwalk annotate)
+       (merge-down args)))
+
 (defn -main
   "Takes multiple paths, reads the directory trees, merges them in
   order and pretty prints the result."
   [& args]
   (try
-    (->> (map read-tree args) ; returns a list of maps: ({})
-         (apply deep-merge)
-         (pathwalk annotate)
-         (merge-down args)
+    (->> args
+         ingest
          ;;pprint-with-meta
          json/write-str
          println)
