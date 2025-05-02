@@ -41,6 +41,13 @@
     (doall
      (csv/read-csv reader))))
 
+(defn- read-lines [file-path]
+  (with-open [rdr (io/reader file-path)]
+    (doall (line-seq rdr))))
+
+(defmethod read-file :log [filename]
+  (read-lines filename))
+
 (defmethod read-file :yml [filename]
   (-> filename
       yaml/from-file
@@ -134,10 +141,12 @@
   (reduce #(deep-merge %1 (get-in input (map keyword (split %2 #"/")))) {} args))
 
 (defn ingest [paths]
-  (->> (map read-tree args) ; returns a list of maps: ({})
+  (->> (map read-tree paths) ; returns a list of maps: ({})
        (apply deep-merge)
        (pathwalk annotate)
-       (merge-down args)))
+       (merge-down paths)))
+
+;; TODO: resolve refs like this {"$ref": "#/credentials/livingdocs/default/token"}
 
 (defn -main
   "Takes multiple paths, reads the directory trees, merges them in
