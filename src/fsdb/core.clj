@@ -156,7 +156,7 @@
     (->> args
          ingest
          ;;pprint-with-meta
-         json/write-str
+         ((fn [m] (json/write-str m :key-fn #(subs (str %) 1))))
          println)
     (catch Exception e
       (println "There's an error: " (.getMessage e)))))
